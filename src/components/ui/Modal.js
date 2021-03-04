@@ -3,33 +3,40 @@ import Wrapper from '../layout/Wrapper';
 
 function Modal(props) {
 	const {
+		open,
 		confirmBtn,
 		cancelBtn,
 		confirmBtnText,
 		cancelBtnText,
 		children,
+		onConfirm,
 	} = props;
 
 	return (
-		<div className="modal__root" role="dialog">
-			<Wrapper>
-				<div className="modal">
-					{children}
-					<div className="modal__footer">
-						{cancelBtn && (
-							<button className="btn btn--text">
-								{cancelBtnText}
-							</button>
-						)}
-						{confirmBtn && (
-							<button className="btn btn--text">
-								{confirmBtnText}
-							</button>
-						)}
+		open && (
+			<div className="modal__root" role="dialog">
+				<Wrapper>
+					<div className="modal">
+						{children}
+						<div className="modal__footer">
+							{cancelBtn && (
+								<button className="btn btn--text">
+									{cancelBtnText}
+								</button>
+							)}
+							{confirmBtn && (
+								<button
+									className="btn btn--text"
+									onClick={onConfirm}
+								>
+									{confirmBtnText}
+								</button>
+							)}
+						</div>
 					</div>
-				</div>
-			</Wrapper>
-		</div>
+				</Wrapper>
+			</div>
+		)
 	);
 }
 

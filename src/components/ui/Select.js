@@ -12,22 +12,22 @@ function Select(props) {
 	const selectRef = useRef();
 
 	const toggleSelect = () => {
-		selectRef.current.classList.toggle('hide');
+		selectRef.current.classList.toggle('open');
 	};
 
 	const handleSelectChange = (value, text) => {
 		console.log('el select ahora tiene el valor:', value);
-		selectRef.current.classList.add('hide');
+		selectRef.current.classList.remove('open');
 		setSelectOption({ value, text });
 	};
 
 	return (
-		<div className="form__control select">
+		<div className="form__control select" ref={selectRef}>
 			<div className="select__header" onClick={toggleSelect}>
 				{text}
 				<span className="select__arrow">&#9660;</span>
 			</div>
-			<ul className="select__list hide" ref={selectRef}>
+			<ul className="select__list hide">
 				{options.map(({ text, value }) => (
 					<li
 						data-value={value}
