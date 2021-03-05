@@ -1,6 +1,7 @@
 import React from 'react';
 import { Edit2, Trash } from 'react-feather';
 import Checkbox from '../ui/Checkbox';
+import Popup from '../ui/Popup';
 
 function Note({ id, title, description, category, completed, updatedAt }) {
 	return (
@@ -19,6 +20,7 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 			<div className="note__footer">
 				<span>{updatedAt}</span>
 			</div>
+			<Popup />
 		</div>
 	);
 }

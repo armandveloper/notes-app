@@ -1,14 +1,10 @@
 import React from 'react';
-import Header from './components/layout/Header';
-import Navbar from './components/ui/Navbar';
-import Notes from './components/notes/Notes';
+import AppRouter from './components/routers/AppRouter';
 
 function App() {
 	return (
 		<>
-			<Header />
-			<Navbar />
-			<Notes />
+			<AppRouter />
 		</>
 	);
 }

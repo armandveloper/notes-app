@@ -35,6 +35,9 @@ i,
 svg {
 	pointer-events: none;
 }
+img {
+	max-width: 100%;
+}
 input,
 select,
 textarea {
@@ -50,7 +53,12 @@ textarea {
 	font-weight: 400;
 }
 .heading-1 {
-	font-size: 3.4rem;
+	font-size: 2.8rem;
+}
+@media (min-width: 56.25em) {
+	.heading-1 {
+		font-size: 3.4rem;
+	}
 }
 .heading-1--notes {
 	font-size: 1.8rem;
@@ -613,6 +621,7 @@ textarea {
 /* Notes */
 .notes__any {
 	margin-top: 6rem;
+	padding-bottom: 2.5rem;
 }
 .notes__any img {
 	margin-top: 5rem;
@@ -629,6 +638,7 @@ textarea {
 	padding: 1.6rem;
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 .note--home {
 	background-color: var(--color-home);
@@ -712,4 +722,61 @@ textarea {
 .note--completed .note__footer {
 	text-decoration: line-through;
 	opacity: 0.6;
+}
+/* Popup */
+.popup__root {
+	background-color: rgba(0, 0, 0, 0.4);
+	height: 100vh;
+	width: 100vw;
+	padding: 0 1rem;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.popup {
+	background-color: #fff;
+	box-shadow: 0px 0.3rem 0.6rem #00000029;
+	min-height: 12.4rem;
+	max-width: 36rem;
+	width: 100%;
+	padding: 1.6rem 1.6rem 2rem;
+	position: relative;
+	z-index: 100;
+	display: flex;
+	flex-direction: column;
+}
+@media (min-width: 75em) {
+	.popup__root {
+		background-color: transparent;
+		display: block;
+		max-height: 12.4rem;
+		max-width: 36rem;
+		padding: 0;
+		position: absolute;
+	}
+	.popup {
+		bottom: 100%;
+		left: calc(55% + 1px);
+	}
+	.popup::after {
+		content: '';
+		border: 1rem solid transparent;
+		border-top-color: #fff;
+		position: absolute;
+		top: 100%;
+		right: calc(50% - 0.5rem);
+	}
+}
+.popup__text {
+	color: #000;
+	font-size: 1.6rem;
+	font-weight: 500;
+	margin: 0;
+	margin-bottom: auto;
+}
+.popup__footer {
+	text-align: right;
 }

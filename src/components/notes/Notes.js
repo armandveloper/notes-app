@@ -23,7 +23,10 @@ function Notes() {
 	return (
 		<main className="notes">
 			<Wrapper>
-				{/* <AnyNotes /> */}
+				{/* <AnyNotes
+					title="Couldn't find any notes"
+					type="noFilterNotes"
+				/> */}
 				<h1 className="heading-1 heading-1--notes">
 					You have 0/1 notes completed
 				</h1>
