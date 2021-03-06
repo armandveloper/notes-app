@@ -8,6 +8,7 @@ function TextArea(props) {
 				className="form__control form__control--multiline"
 				placeholder={placeholder}
 				aria-label={placeholder}
+				tabIndex="3"
 				name={name}
 				value={value}
 				onChange={({ target }) =>

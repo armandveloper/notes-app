@@ -13,9 +13,13 @@ function Notes() {
 		uiState: { isModalOpen },
 	} = useContext(UiContext);
 
-	const { allNotes, displayedNotes } = useContext(NoteContext);
+	const { allNotes, displayedNotes, completedNotes } = useContext(
+		NoteContext
+	);
 
-	const areNotes = allNotes.length > 0;
+	const totalNotes = allNotes.length;
+
+	const areNotes = totalNotes > 0;
 	const areDisplayedNotes = displayedNotes.length > 0;
 
 	return (
@@ -34,9 +38,13 @@ function Notes() {
 				{areDisplayedNotes && (
 					<>
 						<h1 className="heading-1 heading-1--notes">
-							You have 0/1 notes completed
+							You have {completedNotes}/{totalNotes}{' '}
+							{totalNotes > 1 ? 'notes ' : 'note '}
+							completed
 						</h1>
-						<ProgressBar progress={40} />
+						<ProgressBar
+							progress={(completedNotes / totalNotes) * 100}
+						/>
 						<NotesGrid notes={displayedNotes} />
 					</>
 				)}

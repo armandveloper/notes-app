@@ -24,7 +24,19 @@ function Select(props) {
 
 	return (
 		<div className="form__control select" ref={selectRef}>
-			<div className="select__header" onClick={toggleSelect}>
+			<div
+				className="select__header"
+				onClick={toggleSelect}
+				tabIndex="2"
+				onBlur={() => {
+					selectRef.current.classList.remove('open');
+				}}
+				onKeyPress={(e) => {
+					if (e.key === 'Enter') {
+						toggleSelect();
+					}
+				}}
+			>
 				{text}
 				<span className="select__arrow">&#9660;</span>
 			</div>

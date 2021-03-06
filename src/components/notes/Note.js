@@ -76,6 +76,7 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 						const note = displayedNotes.find(
 							(note) => note.id === id
 						);
+						// Coloca activa la nota para que en el popup se puede identificarla
 						setActiveNote(note);
 						setPopupShowing(true);
 					}}

@@ -88,6 +88,7 @@ function NoteForm() {
 						setNote={setNote}
 						type="text"
 						placeholder="Add title..."
+						autoFocus={true}
 					/>
 				</Col>
 				<Col xs={12} sm={6} lg={4}>

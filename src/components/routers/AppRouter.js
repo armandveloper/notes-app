@@ -11,7 +11,7 @@ import NotesPage from '../../pages/NotesPage';
 
 function AppRouter() {
 	return (
-		<Router>
+		<Router basename="/notes-app">
 			<Switch>
 				<Route path="/signin" exact={true}>
 					<LoginPage />

@@ -19,7 +19,6 @@ function Tabs() {
 
 	const handleClick = ({ target }) => {
 		const { tab } = target.dataset;
-		console.log(tab);
 		setUiState((prevState) => ({ ...prevState, currentTab: tab }));
 		setDisplayedNotes(filterNotesByCategory(tab));
 	};
