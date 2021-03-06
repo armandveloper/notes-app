@@ -1,14 +1,8 @@
 import React from 'react';
 
-// title: You don't have any notes
-// type: noNotes
-
-// title: Couldn't find any notes
-// type: noFilterNotes
-
 const imgsPath = {
-	noNotes: '/img/add-note-illustration.svg',
-	noFilterNotes: '/img/search-image.svg',
+	noNotes: '/notes-app/img/add-note-illustration.svg',
+	noFilterNotes: '/notes-app/img/search-image.svg',
 };
 
 function AnyNotes({ title, type }) {
@@ -18,7 +12,7 @@ function AnyNotes({ title, type }) {
 			<h1 className="heading-1 text-center">{title}</h1>
 			<img
 				src={imgPath}
-				alt="No notes"
+				alt={title}
 				width="259"
 				className="img-center"
 			/>
