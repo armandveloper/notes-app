@@ -1,36 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Plus } from 'react-feather';
+import { UiContext } from '../../context/UiContext';
 import Wrapper from '../layout/Wrapper';
 import Button from './Button';
+import Tabs from './Tabs';
 
 function Navbar() {
+	const { setUiState } = useContext(UiContext);
+
+	const handleAddNote = () => {
+		setUiState((prevState) => ({ ...prevState, isModalOpen: true }));
+	};
+
 	return (
 		<Wrapper>
 			<nav className="navbar">
-				<ul className="tab__list" role="tablist">
-					<li className="tab__item tab__item--active" role="tab">
-						All
-					</li>
-					<li
-						className="tab__item tab__item--custom tab__item--custom-home"
-						role="tab"
-					>
-						Home
-					</li>
-					<li
-						className="tab__item tab__item--custom tab__item--custom-work"
-						role="tab"
-					>
-						Work
-					</li>
-					<li
-						className="tab__item tab__item--custom tab__item--custom-personal"
-						role="tab"
-					>
-						Personal
-					</li>
-				</ul>
-				<Button type="primary" textTransform="uppercase">
+				<Tabs />
+				<Button
+					type="primary"
+					textTransform="uppercase"
+					onClick={handleAddNote}
+				>
 					<Plus size={24} color="currentColor" />
 					Add Note
 				</Button>

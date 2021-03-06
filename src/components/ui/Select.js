@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
 
 function Select(props) {
-	const { options, selectHeader } = props;
+	const { options, selectHeader, setNote, value, name } = props;
+
 	const [selectOption, setSelectOption] = useState({
-		value: '',
+		value,
 		text: selectHeader,
 	});
 
@@ -16,9 +17,9 @@ function Select(props) {
 	};
 
 	const handleSelectChange = (value, text) => {
-		console.log('el select ahora tiene el valor:', value);
 		selectRef.current.classList.remove('open');
 		setSelectOption({ value, text });
+		setNote((prevNote) => ({ ...prevNote, [name]: value }));
 	};
 
 	return (

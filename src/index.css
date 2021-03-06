@@ -582,6 +582,7 @@ textarea {
 	line-height: 3.6rem;
 	position: relative;
 	text-align: center;
+	text-transform: capitalize;
 }
 .tab__item--active {
 	color: #fff;
@@ -639,6 +640,7 @@ textarea {
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	transition: background-color 0.3s ease;
 }
 .note--home {
 	background-color: var(--color-home);
@@ -730,6 +732,7 @@ textarea {
 	width: 100vw;
 	padding: 0 1rem;
 	position: fixed;
+	z-index: 100;
 	top: 0;
 	left: 0;
 	display: flex;

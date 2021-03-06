@@ -1,10 +1,15 @@
 import React from 'react';
 
-function Checkbox({ label }) {
+function Checkbox({ label, onChange, checked }) {
 	return (
 		<label className="checkbox">
 			<span className="checkbox__input">
-				<input type="checkbox" name="checkbox" />
+				<input
+					type="checkbox"
+					name="checkbox"
+					checked={checked}
+					onChange={onChange}
+				/>
 				<span className="checkbox__control">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
