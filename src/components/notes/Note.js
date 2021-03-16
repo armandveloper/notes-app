@@ -3,40 +3,27 @@ import { Edit2, Trash } from 'react-feather';
 import { UiContext } from '../../context/UiContext';
 import { NoteContext } from '../../context/NoteContext';
 import { formatDate } from '../../helpers/formatDate';
-
 import Checkbox from '../ui/Checkbox';
 import Popup from '../ui/Popup';
-
-const completeNotes = (prevNotes, { id, completed, updatedAt }) => {
-	const note = prevNotes.find((note) => note.id === id);
-	note.completed = completed;
-	note.updatedAt = updatedAt;
-	const notes = prevNotes.filter((note) => note.id !== id);
-
-	return [...notes, note];
-};
+import { setIsModalOpen } from '../../actions/ui';
+import { completeNote, setActiveNote } from '../../actions/note';
 
 function Note({ id, title, description, category, completed, updatedAt }) {
-	const { setUiState } = useContext(UiContext);
-	const {
-		setActiveNote,
-		displayedNotes,
-		setDisplayedNotes,
-		setAllNotes,
-	} = useContext(NoteContext);
+	const { uiState, uiDispatch } = useContext(UiContext);
+	const { notesDispatch } = useContext(NoteContext);
+
 	const [isPopupShowing, setPopupShowing] = useState(false);
 
 	const handleComplete = ({ target }) => {
 		const completed = target.checked;
 		const updatedAt = formatDate();
-		// Actualizar notas
-		setAllNotes((prevNotes) => {
-			return completeNotes(prevNotes, { id, completed, updatedAt });
-		});
 
-		setDisplayedNotes((prevNotes) => {
-			return completeNotes(prevNotes, { id, completed, updatedAt });
-		});
+		// Actualizar notas
+		notesDispatch(completeNote({ id, completed, updatedAt }));
+
+		// setDisplayedNotes((prevNotes) => {
+		// 	return completeNotes(prevNotes, { id, completed, updatedAt });
+		// });
 	};
 
 	return (
@@ -57,14 +44,8 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 					className="note__btn"
 					title="Edit Note"
 					onClick={() => {
-						const note = displayedNotes.find(
-							(note) => note.id === id
-						);
-						setActiveNote(note);
-						setUiState((prevState) => ({
-							...prevState,
-							isModalOpen: true,
-						}));
+						notesDispatch(setActiveNote(id));
+						uiDispatch(setIsModalOpen(uiState.isModalOpen));
 					}}
 				>
 					<Edit2 size={20} color="currentColor" />
@@ -73,11 +54,8 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 					className="note__btn"
 					title="Delete Note"
 					onClick={() => {
-						const note = displayedNotes.find(
-							(note) => note.id === id
-						);
 						// Coloca activa la nota para que en el popup se puede identificarla
-						setActiveNote(note);
+						notesDispatch(setActiveNote(id));
 						setPopupShowing(true);
 					}}
 				>

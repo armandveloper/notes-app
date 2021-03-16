@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NoteContext } from '../../context/NoteContext';
+import { setCurrentTab } from '../../actions/ui';
 import { UiContext } from '../../context/UiContext';
 
 const tabs = ['home', 'work', 'personal'];
@@ -7,20 +7,12 @@ const tabs = ['home', 'work', 'personal'];
 function Tabs() {
 	const {
 		uiState: { currentTab },
-		setUiState,
+		uiDispatch,
 	} = useContext(UiContext);
-
-	const { allNotes, setDisplayedNotes } = useContext(NoteContext);
-
-	const filterNotesByCategory = (category) => {
-		if (category === 'all') return allNotes;
-		return allNotes.filter((note) => note.category === category);
-	};
 
 	const handleClick = ({ target }) => {
 		const { tab } = target.dataset;
-		setUiState((prevState) => ({ ...prevState, currentTab: tab }));
-		setDisplayedNotes(filterNotesByCategory(tab));
+		uiDispatch(setCurrentTab(tab));
 	};
 
 	return (

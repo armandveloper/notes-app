@@ -1,19 +1,23 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { NoteContext } from '../../context/NoteContext';
+import {
+	deleteNote,
+	setActiveNote,
+	setDisplayedNotes,
+} from '../../actions/note';
+import { UiContext } from '../../context/UiContext';
 
 function Popup({ setPopupShowing }) {
-	const { activeNote, setAllNotes, setDisplayedNotes } = useContext(
-		NoteContext
-	);
+	const { notesState, notesDispatch } = useContext(NoteContext);
+	const { uiState } = useContext(UiContext);
+
+	const { activeNote } = notesState;
 
 	const handleDelete = () => {
-		setAllNotes((prevNotes) => {
-			return prevNotes.filter((note) => note.id !== activeNote.id);
-		});
-		setDisplayedNotes((prevNotes) => {
-			return prevNotes.filter((note) => note.id !== activeNote.id);
-		});
+		notesDispatch(deleteNote(activeNote.id));
+		notesDispatch(setDisplayedNotes(uiState.currentTab));
+		notesDispatch(setActiveNote());
 	};
 
 	return (
@@ -23,7 +27,10 @@ function Popup({ setPopupShowing }) {
 				<div className="popup__footer">
 					<button
 						className="btn btn--text"
-						onClick={() => setPopupShowing(false)}
+						onClick={() => {
+							notesDispatch(setActiveNote());
+							setPopupShowing(false);
+						}}
 					>
 						Cancel
 					</button>

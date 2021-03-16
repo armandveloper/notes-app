@@ -8,6 +8,13 @@ import Col from '../layout/Col';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
 import TextArea from '../ui/TextArea';
+import { setIsModalOpen } from '../../actions/ui';
+import {
+	addNote,
+	setActiveNote,
+	setDisplayedNotes,
+	updateNote,
+} from '../../actions/note';
 
 const initialNote = {
 	title: '',
@@ -16,21 +23,18 @@ const initialNote = {
 };
 
 function NoteForm() {
-	const { uiState, setUiState } = useContext(UiContext);
-	const {
-		activeNote,
-		setActiveNote,
-		setAllNotes,
-		setDisplayedNotes,
-	} = useContext(NoteContext);
+	const { uiState, uiDispatch } = useContext(UiContext);
+	const { notesState, notesDispatch } = useContext(NoteContext);
+	const { activeNote } = notesState;
 	const [note, setNote] = useState(activeNote || initialNote);
 	const { title, category, description } = note;
 
-	const closeModal = () =>
-		setUiState((prevState) => ({
-			...prevState,
-			isModalOpen: false,
-		}));
+	const closeModal = () => {
+		uiDispatch(setIsModalOpen(uiState.isModalOpen));
+		if (activeNote) {
+			notesDispatch(setActiveNote());
+		}
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -41,38 +45,39 @@ function NoteForm() {
 		const id = nanoid();
 		const updatedAt = formatDate();
 
-		const updateNotes = (prevNotes) => {
-			if (activeNote) {
-				return prevNotes.map((note) =>
-					note.id === activeNote.id
-						? { ...note, title, category, description, updatedAt }
-						: note
-				);
-			}
-			return [
-				{
+		// Actualiza las notas
+		if (activeNote) {
+			notesDispatch(
+				updateNote({
+					...activeNote,
+					title,
+					category,
+					description,
+					updatedAt,
+				})
+			);
+		} else {
+			// Agrega la nueva nota
+			notesDispatch(
+				addNote({
 					id,
 					title,
 					category,
 					description,
 					completed: false,
 					updatedAt,
-				},
-				...prevNotes,
-			];
-		};
-		// Actualiza las notas
+				})
+			);
+		}
 
-		setAllNotes(updateNotes);
-
-		// Si estamos en la pestaña de todas las notas. También actualice ese estado
+		// // Si estamos en la pestaña de todas las notas. También actualice ese estado
 		if (uiState.currentTab === 'all') {
-			setDisplayedNotes(updateNotes);
+			notesDispatch(setDisplayedNotes(uiState.currentTab));
 		}
 
 		// Limpia el estado
 		setNote(initialNote);
-		setActiveNote(null);
+		notesDispatch(setActiveNote(null));
 
 		// Oculta el modal
 		closeModal();
@@ -117,14 +122,18 @@ function NoteForm() {
 				</Col>
 			</Grid>
 			<div className="modal__footer">
-				<button className="btn btn--text" onClick={closeModal}>
+				<button
+					type="button"
+					className="btn btn--text"
+					onClick={closeModal}
+				>
 					Cancel
 				</button>
 				<button
 					className="btn btn--text"
 					// onClick={() => onConfirm()}
 				>
-					Add
+					{activeNote ? 'Update' : 'Add'}
 				</button>
 			</div>
 		</form>

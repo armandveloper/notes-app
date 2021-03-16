@@ -1,15 +1,18 @@
 import React, { useContext } from 'react';
 import { Plus } from 'react-feather';
+import { setIsModalOpen } from '../../actions/ui';
 import { UiContext } from '../../context/UiContext';
 import Wrapper from '../layout/Wrapper';
 import Button from './Button';
 import Tabs from './Tabs';
 
 function Navbar() {
-	const { setUiState } = useContext(UiContext);
+	const { uiState, uiDispatch } = useContext(UiContext);
+
+	const { isModalOpen } = uiState;
 
 	const handleAddNote = () => {
-		setUiState((prevState) => ({ ...prevState, isModalOpen: true }));
+		uiDispatch(setIsModalOpen(isModalOpen));
 	};
 
 	return (
