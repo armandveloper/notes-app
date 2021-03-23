@@ -12,6 +12,7 @@ function Tabs() {
 
 	const handleClick = ({ target }) => {
 		const { tab } = target.dataset;
+		localStorage.setItem('lastTab', tab);
 		uiDispatch(setCurrentTab(tab));
 	};
 

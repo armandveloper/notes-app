@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UiContext } from '../../context/UiContext';
 import Modal from '../ui/Modal';
 import Wrapper from '../layout/Wrapper';
@@ -7,13 +7,18 @@ import ProgressBar from '../ui/ProgressBar';
 import AnyNotes from './AnyNotes';
 import NoteForm from './NoteForm';
 import { NoteContext } from '../../context/NoteContext';
+import { fetchWithToken } from '../../helpers/fetch';
+import { setNotes } from '../../actions/note';
+import { formatDate } from '../../helpers/formatDate';
+import { setCurrentTab } from '../../actions/ui';
 
 function Notes() {
 	const {
 		uiState: { isModalOpen },
+		uiDispatch,
 	} = useContext(UiContext);
 
-	const { notesState } = useContext(NoteContext);
+	const { notesState, notesDispatch } = useContext(NoteContext);
 
 	const { notes, displayedNotes, completedNotes } = notesState;
 
@@ -21,6 +26,43 @@ function Notes() {
 
 	const areNotes = totalNotes > 0;
 	const areDisplayedNotes = displayedNotes.length > 0;
+
+	useEffect(() => {
+		const getNotes = async () => {
+			const resp = await fetchWithToken('notes');
+			if (!resp.success) {
+				alert(resp.msg);
+				return;
+			}
+			notesDispatch(
+				setNotes(
+					resp.notes.map((note) => {
+						const {
+							_id,
+							completed,
+							title,
+							description,
+							category,
+							updatedAt,
+							user,
+						} = note;
+						return {
+							_id,
+							completed,
+							title,
+							description,
+							category,
+							updatedAt: formatDate(updatedAt),
+							user,
+						};
+					})
+				)
+			);
+			const lastTab = localStorage.getItem('lastTab') || 'all';
+			uiDispatch(setCurrentTab(lastTab));
+		};
+		getNotes();
+	}, [notesDispatch, uiDispatch]);
 
 	return (
 		<main className="notes">

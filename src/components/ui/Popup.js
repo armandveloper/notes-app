@@ -7,6 +7,7 @@ import {
 	setDisplayedNotes,
 } from '../../actions/note';
 import { UiContext } from '../../context/UiContext';
+import { fetchWithToken } from '../../helpers/fetch';
 
 function Popup({ setPopupShowing }) {
 	const { notesState, notesDispatch } = useContext(NoteContext);
@@ -14,8 +15,18 @@ function Popup({ setPopupShowing }) {
 
 	const { activeNote } = notesState;
 
-	const handleDelete = () => {
-		notesDispatch(deleteNote(activeNote.id));
+	const handleDelete = async () => {
+		const resp = await fetchWithToken(
+			'notes/' + activeNote._id,
+			{},
+			'DELETE'
+		);
+		if (!resp.success) {
+			alert(resp.msg);
+			return;
+		}
+
+		notesDispatch(deleteNote(activeNote._id));
 		notesDispatch(setDisplayedNotes(uiState.currentTab));
 		notesDispatch(setActiveNote());
 	};

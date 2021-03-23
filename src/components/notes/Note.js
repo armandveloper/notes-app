@@ -6,24 +6,37 @@ import { formatDate } from '../../helpers/formatDate';
 import Checkbox from '../ui/Checkbox';
 import Popup from '../ui/Popup';
 import { setIsModalOpen } from '../../actions/ui';
-import { completeNote, setActiveNote } from '../../actions/note';
+import {
+	completeNote,
+	setActiveNote,
+	setCompletedNotes,
+} from '../../actions/note';
+import { fetchWithToken } from '../../helpers/fetch';
 
-function Note({ id, title, description, category, completed, updatedAt }) {
+function Note({ _id, title, description, category, completed, updatedAt }) {
 	const { uiState, uiDispatch } = useContext(UiContext);
 	const { notesDispatch } = useContext(NoteContext);
 
 	const [isPopupShowing, setPopupShowing] = useState(false);
 
-	const handleComplete = ({ target }) => {
+	const handleComplete = async ({ target }) => {
 		const completed = target.checked;
-		const updatedAt = formatDate();
+
+		const resp = await fetchWithToken(
+			'notes/complete/' + _id,
+			{ completed },
+			'PUT'
+		);
+		if (!resp.success) {
+			alert(resp.msg);
+			return;
+		}
+		const { note } = resp;
+		const updatedAt = formatDate(note.updatedAt);
 
 		// Actualizar notas
-		notesDispatch(completeNote({ id, completed, updatedAt }));
-
-		// setDisplayedNotes((prevNotes) => {
-		// 	return completeNotes(prevNotes, { id, completed, updatedAt });
-		// });
+		notesDispatch(completeNote({ _id, completed, updatedAt }));
+		notesDispatch(setCompletedNotes());
 	};
 
 	return (
@@ -31,7 +44,7 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 			className={`note note--${category} ${
 				completed ? 'note--completed' : ''
 			}`}
-			data-id={id}
+			data-_id={_id}
 		>
 			<div className="note__header">
 				<Checkbox
@@ -44,7 +57,7 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 					className="note__btn"
 					title="Edit Note"
 					onClick={() => {
-						notesDispatch(setActiveNote(id));
+						notesDispatch(setActiveNote(_id));
 						uiDispatch(setIsModalOpen(uiState.isModalOpen));
 					}}
 				>
@@ -55,7 +68,7 @@ function Note({ id, title, description, category, completed, updatedAt }) {
 					title="Delete Note"
 					onClick={() => {
 						// Coloca activa la nota para que en el popup se puede identificarla
-						notesDispatch(setActiveNote(id));
+						notesDispatch(setActiveNote(_id));
 						setPopupShowing(true);
 					}}
 				>

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { nanoid } from 'nanoid';
 import { UiContext } from '../../context/UiContext';
 import { NoteContext } from '../../context/NoteContext';
 import { formatDate } from '../../helpers/formatDate';
@@ -15,6 +14,8 @@ import {
 	setDisplayedNotes,
 	updateNote,
 } from '../../actions/note';
+import { fetchWithToken } from '../../helpers/fetch';
+import { AuthContext } from '../../auth/AuthContext';
 
 const initialNote = {
 	title: '',
@@ -25,6 +26,7 @@ const initialNote = {
 function NoteForm() {
 	const { uiState, uiDispatch } = useContext(UiContext);
 	const { notesState, notesDispatch } = useContext(NoteContext);
+	const { auth } = useContext(AuthContext);
 	const { activeNote } = notesState;
 	const [note, setNote] = useState(activeNote || initialNote);
 	const { title, category, description } = note;
@@ -36,44 +38,81 @@ function NoteForm() {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!title.trim() || !description.trim() || !category.trim()) {
 			return;
 		}
-
-		const id = nanoid();
-		const updatedAt = formatDate();
-
 		// Actualiza las notas
 		if (activeNote) {
+			const resp = await fetchWithToken(
+				'notes/' + activeNote._id,
+				{
+					title,
+					description,
+					category,
+				},
+				'PUT'
+			);
+
+			if (!resp.success) {
+				alert(resp.msg);
+				return;
+			}
+			const { note } = resp;
+			const updatedAt = formatDate(note.updatedAt);
 			notesDispatch(
 				updateNote({
 					...activeNote,
-					title,
-					category,
-					description,
+					title: note.title,
+					category: note.category,
+					description: note.description,
 					updatedAt,
 				})
 			);
-		} else {
-			// Agrega la nueva nota
-			notesDispatch(
-				addNote({
-					id,
-					title,
-					category,
-					description,
-					completed: false,
-					updatedAt,
-				})
-			);
+
+			notesDispatch(setDisplayedNotes(uiState.currentTab));
+
+			// Limpia el estado
+			setNote(initialNote);
+			notesDispatch(setActiveNote(null));
+
+			// Oculta el modal
+			closeModal();
+			return;
 		}
 
-		// // Si estamos en la pestaña de todas las notas. También actualice ese estado
-		if (uiState.currentTab === 'all') {
-			notesDispatch(setDisplayedNotes(uiState.currentTab));
+		// Agrega la nueva nota
+
+		const resp = await fetchWithToken(
+			'notes',
+			{
+				title,
+				description,
+				category,
+				user: auth.uid,
+			},
+			'POST'
+		);
+
+		if (!resp.success) {
+			alert(resp.msg);
+			return;
 		}
+		const { note } = resp;
+		const updatedAt = formatDate(note.updatedAt);
+		notesDispatch(
+			addNote({
+				_id: note._id,
+				title: note.title,
+				category: note.category,
+				description: note.description,
+				completed: note.completed,
+				updatedAt,
+			})
+		);
+
+		notesDispatch(setDisplayedNotes(uiState.currentTab));
 
 		// Limpia el estado
 		setNote(initialNote);

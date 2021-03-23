@@ -9,7 +9,7 @@ function NotesGrid({ notes }) {
 		<div className="notes__grid">
 			<Grid stretch={true}>
 				{notes.map((note) => (
-					<Col key={note.id} xs={12} sm={6}>
+					<Col key={note._id} xs={12} sm={6}>
 						<Note {...note} />
 					</Col>
 				))}

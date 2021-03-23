@@ -13,8 +13,8 @@ const months = [
 	'Dec',
 ];
 
-export const formatDate = () => {
-	const date = new Date();
+export const formatDate = (_date) => {
+	const date = new Date(_date);
 	const month = months[date.getMonth()];
 	const day = date.getDate();
 	const year = date.getFullYear();

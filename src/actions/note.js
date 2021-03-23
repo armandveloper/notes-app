@@ -10,6 +10,11 @@ export const addNote = (note) => ({
 	payload: note,
 });
 
+export const setNotes = (notes) => ({
+	type: types.NOTE_SET_NOTES,
+	payload: notes,
+});
+
 export const setActiveNote = (id) => ({
 	type: types.NOTE_SET_ACTIVE,
 	payload: id,

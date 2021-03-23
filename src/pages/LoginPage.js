@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Grid from '../components/layout/Grid';
 import '../auth.css';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../auth/AuthContext';
+import { useForm } from '../hooks/useForm';
 
 function LoginPage() {
+	const { signin } = useContext(AuthContext);
+
+	const [form, handleFormChange] = useForm({
+		email: '',
+		password: '',
+	});
+
+	const { email, password } = form;
+
+	const handleSignin = async (e) => {
+		e.preventDefault();
+
+		if (!email.trim() || !password.trim()) {
+			return;
+		}
+
+		const { success, msg } = await signin(email, password);
+		if (!success) {
+			alert(msg);
+			// return Swal.fire(
+			// 	'Error',
+			// 	msg || 'Error al crear cuenta. Por favor intente más tarde',
+			// 	'error'
+			// );
+		}
+	};
+
 	return (
 		<div className="auth__page">
 			<div className="auth__form-wrapper">
@@ -12,6 +41,7 @@ function LoginPage() {
 					method="POST"
 					className="auth__form"
 					autoComplete="off"
+					onSubmit={handleSignin}
 				>
 					<h1 className="text-center">Welcome Back</h1>
 					<div className="mb-3">
@@ -24,6 +54,8 @@ function LoginPage() {
 							id="email"
 							name="email"
 							required
+							value={email}
+							onChange={handleFormChange}
 						/>
 					</div>
 					<div className="mb-3">
@@ -36,6 +68,8 @@ function LoginPage() {
 							id="password"
 							name="password"
 							required
+							value={password}
+							onChange={handleFormChange}
 						/>
 					</div>
 					<Grid>

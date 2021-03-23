@@ -3,6 +3,7 @@ const types = {
 	NOTE_UPDATE: 'Update a note',
 	NOTE_COMPLETE: 'Toggle the completed state of a note',
 	NOTE_DELETE: 'Delete a note',
+	NOTE_SET_NOTES: 'Set the initial notes',
 	NOTE_SET_ACTIVE: 'Set active note',
 	NOTE_SET_COMPLETED: 'Set the number of completed notes',
 	NOTE_SET_DISPLAYED: 'Set the displayed notes',

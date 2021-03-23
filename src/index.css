@@ -592,6 +592,7 @@ textarea {
 	position: relative;
 	text-align: center;
 	text-transform: capitalize;
+  user-select: none;
 }
 .tab__item--active {
 	color: #fff;
