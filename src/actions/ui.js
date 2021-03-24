@@ -9,3 +9,7 @@ export const setCurrentTab = (currentTab) => ({
 	type: types.UI_SET_CURRENT_TAB,
 	payload: currentTab,
 });
+
+export const unsetUi = () => ({
+	type: types.UI_UNSET,
+});

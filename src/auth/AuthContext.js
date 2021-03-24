@@ -80,9 +80,6 @@ export const AuthProvider = ({ children }) => {
 	}, []);
 
 	const logout = () => {
-		// dispatch({
-		// 	type: types.CHAT_UNSET,
-		// });
 		localStorage.removeItem('token');
 		setAuth({
 			checking: false,

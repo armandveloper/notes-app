@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import Swal from 'sweetalert2';
 import { UiContext } from '../../context/UiContext';
 import { NoteContext } from '../../context/NoteContext';
 import { formatDate } from '../../helpers/formatDate';
@@ -56,8 +57,7 @@ function NoteForm() {
 			);
 
 			if (!resp.success) {
-				alert(resp.msg);
-				return;
+				return Swal.fire('Error', resp.msg, 'error');
 			}
 			const { note } = resp;
 			const updatedAt = formatDate(note.updatedAt);
@@ -96,8 +96,7 @@ function NoteForm() {
 		);
 
 		if (!resp.success) {
-			alert(resp.msg);
-			return;
+			return Swal.fire('Error', resp.msg, 'error');
 		}
 		const { note } = resp;
 		const updatedAt = formatDate(note.updatedAt);

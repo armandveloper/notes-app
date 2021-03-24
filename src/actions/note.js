@@ -43,3 +43,7 @@ export const searchNotes = (q, category) => ({
 	type: types.NOTE_SEARCH,
 	payload: { q, category },
 });
+
+export const unsetNotes = () => ({
+	type: types.NOTE_UNSET,
+});

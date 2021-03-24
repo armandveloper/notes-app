@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 import { NoteContext } from '../../context/NoteContext';
 import {
 	deleteNote,
@@ -22,8 +23,7 @@ function Popup({ setPopupShowing }) {
 			'DELETE'
 		);
 		if (!resp.success) {
-			alert(resp.msg);
-			return;
+			return Swal.fire('Error', resp.msg, 'error');
 		}
 
 		notesDispatch(deleteNote(activeNote._id));

@@ -114,7 +114,13 @@ export const notesReducer = (state = initState, action) => {
 				}),
 			};
 		}
-
+		case types.NOTE_UNSET:
+			return {
+				notes: [],
+				displayedNotes: [],
+				activeNote: null,
+				completedNotes: 0,
+			};
 		default:
 			return state;
 	}

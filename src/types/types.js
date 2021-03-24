@@ -8,7 +8,9 @@ const types = {
 	NOTE_SET_COMPLETED: 'Set the number of completed notes',
 	NOTE_SET_DISPLAYED: 'Set the displayed notes',
 	NOTE_SEARCH: 'Search notes',
+	NOTE_UNSET: 'Unset the notes state',
 	UI_SET_IS_MODAL_OPEN: 'Open the modal',
 	UI_SET_CURRENT_TAB: 'Set the current tab',
+	UI_UNSET: 'Unset the ui state',
 };
 export default types;

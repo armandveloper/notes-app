@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRouter from './components/routers/AppRouter';
+import AppRouter from './routers/AppRouter';
 import { AuthProvider } from './auth/AuthContext';
 import { UiProvider } from './context/UiContext';
 

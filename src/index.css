@@ -4,6 +4,7 @@
 	--color-home: #ff9100;
 	--color-work: #5c6bc0;
 	--color-personal: #66bb6a;
+	--color-danger: #d32f2f;
 	--wrapper-width: 82.4rem;
 	--grid-gap: 2.4rem 1.6rem;
 	--input-height: 4.4rem;
@@ -87,6 +88,14 @@ textarea {
 .mt-0 {
 	margin-top: 0 !important;
 }
+.overlay {
+	background-color: rgba(0, 0, 0, 0.45);
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 /* Buttons */
 .btn {
 	background-color: transparent;
@@ -110,6 +119,10 @@ textarea {
 }
 .btn--primary {
 	background-color: var(--color-primary);
+	color: #fff;
+}
+.btn--danger {
+	background-color: var(--color-danger);
 	color: #fff;
 }
 .btn--text {
@@ -137,7 +150,7 @@ textarea {
 	bottom: 0;
 	left: 0;
 	z-index: 10000;
-  overflow: hidden;
+	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -147,10 +160,10 @@ textarea {
 	background-color: #fff;
 	box-shadow: 0px 0.3rem 0.6rem #00000029;
 	border-radius: 0.4rem;
-  max-height: calc(100vh - 4rem);
-  padding: 1.9rem 3.4rem 2.5rem;
+	max-height: calc(100vh - 4rem);
+	padding: 1.9rem 3.4rem 2.5rem;
 	animation: modal-in 0.3s ease-out;
-  overflow-y: auto;
+	overflow-y: auto;
 }
 .modal__footer {
 	margin-top: 2.6rem;
@@ -306,6 +319,24 @@ textarea {
 }
 .checkbox__input input:disabled + .checkbox__control {
 	color: var(--disabled);
+}
+/* Spinner */
+.spinner {
+	border-radius: 50%;
+	border: 0.4rem solid transparent;
+	border-top-color: var(--color-home);
+	height: 5rem;
+	width: 5rem;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 /* Layout */
 .wrapper {
@@ -521,6 +552,10 @@ textarea {
 		margin-top: 6.4rem;
 	}
 }
+.header__top {
+	margin-bottom: 1.2rem;
+	text-align: right;
+}
 /* Search Box */
 .search {
 	height: 4.6rem;
@@ -592,7 +627,7 @@ textarea {
 	position: relative;
 	text-align: center;
 	text-transform: capitalize;
-  user-select: none;
+	user-select: none;
 }
 .tab__item--active {
 	color: #fff;

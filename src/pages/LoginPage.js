@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Grid from '../components/layout/Grid';
+import Swal from 'sweetalert2';
 import '../auth.css';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
@@ -24,12 +25,11 @@ function LoginPage() {
 
 		const { success, msg } = await signin(email, password);
 		if (!success) {
-			alert(msg);
-			// return Swal.fire(
-			// 	'Error',
-			// 	msg || 'Error al crear cuenta. Por favor intente más tarde',
-			// 	'error'
-			// );
+			return Swal.fire(
+				'Error',
+				msg || 'Error al crear cuenta. Por favor intente más tarde',
+				'error'
+			);
 		}
 	};
 

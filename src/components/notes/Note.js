@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import Swal from 'sweetalert2';
 import { Edit2, Trash } from 'react-feather';
 import { UiContext } from '../../context/UiContext';
 import { NoteContext } from '../../context/NoteContext';
@@ -28,8 +29,7 @@ function Note({ _id, title, description, category, completed, updatedAt }) {
 			'PUT'
 		);
 		if (!resp.success) {
-			alert(resp.msg);
-			return;
+			return Swal.fire('Error', resp.msg, 'error');
 		}
 		const { note } = resp;
 		const updatedAt = formatDate(note.updatedAt);

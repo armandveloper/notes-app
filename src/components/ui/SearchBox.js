@@ -17,6 +17,7 @@ function SearchBox() {
 			return;
 		}
 		notesDispatch(searchNotes(search.trim(), uiState.currentTab));
+		setSearch('');
 	};
 
 	return (

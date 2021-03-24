@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import '../auth.css';
 import { AuthContext } from '../auth/AuthContext';
 import { useForm } from '../hooks/useForm';
@@ -24,12 +25,11 @@ function RegisterPage() {
 
 		const { success, msg } = await signup(email, password);
 		if (!success) {
-			alert(msg);
-			// return Swal.fire(
-			// 	'Error',
-			// 	msg || 'Error al crear cuenta. Por favor intente más tarde',
-			// 	'error'
-			// );
+			return Swal.fire(
+				'Error',
+				msg || 'Error al crear cuenta. Por favor intente más tarde',
+				'error'
+			);
 		}
 	};
 
@@ -77,7 +77,7 @@ function RegisterPage() {
 							type="submit"
 							className="btn btn--primary mt-2 col--12"
 						>
-							Sign In
+							Sign Up
 						</button>
 					</Grid>
 					<p className="auth__bottom-text">
